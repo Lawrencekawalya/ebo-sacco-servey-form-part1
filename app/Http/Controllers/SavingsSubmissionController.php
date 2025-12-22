@@ -63,7 +63,10 @@ class SavingsSubmissionController extends Controller
                 'submitted_at' => now(),
             ]);
 
-
+            // dd(
+            //     config('database.connections.mysql.database'),
+            //     config('database.connections.mysql.host')
+            // );
             // 5. Send confirmation email
             Mail::to($email)->send(new ConfirmSavingsSubmissionMail($submission));
 

@@ -295,6 +295,7 @@
     <header style="padding-top: 20px">
         <img src="{{ asset('images/logo.png') }}" alt="EBO Logo">
         <h1>Staff Satisfaction Survey 2025</h1>
+        {{-- <form method="POST" action="{{ route('logout') }}"> @csrf <button type="submit"> Logout </button> </form> --}}
     </header>
 
     <div class="container">

@@ -1,3 +1,4 @@
+@php use Illuminate\Support\Str; @endphp
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <style>
         /* Reset and Base Styles */
@@ -126,6 +128,29 @@
             color: var(--primary-color);
             font-weight: bold;
             font-size: 16px;
+        }
+
+        .user-profile form {
+            margin: 0;
+        }
+
+        .user-profile button {
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: 12px;
+            color: #dc2626;
+            cursor: pointer;
+            transition: color 0.2s ease, opacity 0.2s ease;
+        }
+
+        .user-profile button:hover {
+            color: #b91c1c;
+            opacity: 0.85;
+        }
+
+        .user-profile button:focus {
+            outline: none;
         }
 
         /* Main Container */
@@ -845,7 +870,14 @@
                     <div class="user-avatar">AD</div>
                     <div>
                         <div style="font-weight: 600;">Admin User</div>
-                        <div style="font-size: 12px; opacity: 0.9;">HR Department</div>
+                        <div style="font-size: 12px; opacity: 0.9;">
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit">
+                                    Logout
+                                </button>
+                            </form>
+                        </div>
                     </div>
                     <i class="fas fa-chevron-down" style="font-size: 12px;"></i>
                 </div>
@@ -912,9 +944,9 @@
                     <div class="stat-content">
                         <div class="stat-value">{{ $submissions->count() }}</div>
                         <div class="stat-label">Total Responses</div>
-                        <div class="stat-change">
+                        {{-- <div class="stat-change">
                             <i class="fas fa-arrow-up"></i> 24% from last survey
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
 
@@ -925,9 +957,9 @@
                     <div class="stat-content">
                         <div class="stat-value">{{ $confirmedCount }}</div>
                         <div class="stat-label">Confirmed Submissions</div>
-                        <div class="stat-change">
+                        {{-- <div class="stat-change">
                             <i class="fas fa-arrow-up"></i> 18% increase
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
 
@@ -938,9 +970,9 @@
                     <div class="stat-content">
                         <div class="stat-value">{{ $pendingCount }}</div>
                         <div class="stat-label">Pending Confirmations</div>
-                        <div class="stat-change negative">
+                        {{-- <div class="stat-change negative">
                             <i class="fas fa-arrow-down"></i> 5% decrease
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
 
@@ -949,54 +981,48 @@
                         <i class="fas fa-percentage"></i>
                     </div>
                     <div class="stat-content">
-                        <div class="stat-value">4.2</div>
-                        <div class="stat-label">Avg. Satisfaction Score</div>
-                        <div class="stat-change">
-                            <i class="fas fa-arrow-up"></i> 0.3 improvement
+                        <div class="stat-value">
+                            {{ $averageSatisfaction ?: 'N/A' }}
                         </div>
+                        <div class="stat-label">Avg. Satisfaction Score</div>
+                        {{-- <div class="stat-change">
+                            <i class="fas fa-arrow-up"></i> 0.3 improvement
+                        </div> --}}
                     </div>
                 </div>
             </div>
 
             <!-- Filters Bar -->
-            <div class="filters-bar">
+            <form method="GET" action="{{ url()->current() }}" class="filters-bar">
+
                 <div class="filter-group">
                     <label class="filter-label">Status:</label>
-                    <select class="filter-select" id="statusFilter">
+                    <select class="filter-select" name="status" id="statusFilter">
                         <option value="all">All Statuses</option>
-                        <option value="confirmed">Confirmed</option>
-                        <option value="pending">Pending</option>
-                        <option value="draft">Draft</option>
+                        <option value="confirmed" @selected(request('status') === 'confirmed')>Confirmed</option>
+                        <option value="pending" @selected(request('status') === 'pending')>Pending</option>
+                        <option value="draft" @selected(request('status') === 'draft')>Draft</option>
                     </select>
                 </div>
-
-                {{-- <div class="filter-group">
-                    <label class="filter-label">Department:</label>
-                    <select class="filter-select" id="departmentFilter">
-                        <option value="all">All Departments</option>
-                        <option value="hr">Human Resources</option>
-                        <option value="it">Information Technology</option>
-                        <option value="finance">Finance</option>
-                        <option value="operations">Operations</option>
-                    </select>
-                </div> --}}
 
                 <div class="filter-group">
                     <label class="filter-label">Date Range:</label>
-                    <input type="date" class="filter-date" id="dateFrom">
+                    <input type="date" class="filter-date" name="dateFrom" value="{{ request('dateFrom') }}">
                     <span>to</span>
-                    <input type="date" class="filter-date" id="dateTo">
+                    <input type="date" class="filter-date" name="dateTo" value="{{ request('dateTo') }}">
                 </div>
 
                 <div class="filter-group" style="margin-left: auto;">
-                    <button class="filter-btn secondary">
+                    <button type="button" class="filter-btn secondary" onclick="clearFilters()">
                         <i class="fas fa-filter"></i> Clear Filters
                     </button>
-                    <button class="filter-btn">
+
+                    <button type="submit" class="filter-btn">
                         <i class="fas fa-search"></i> Apply Filters
                     </button>
                 </div>
-            </div>
+
+            </form>
 
             <!-- Charts Section -->
             <div class="charts-section">
@@ -1005,9 +1031,7 @@
                         <h3 class="chart-title">Satisfaction Distribution</h3>
                         <select
                             style="padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color); font-size: 13px;">
-                            <option>Question 9</option>
-                            <option>Question 1</option>
-                            <option>Question 2</option>
+                            <option>Question 8</option>
                         </select>
                     </div>
                     <div class="chart-container">
@@ -1018,12 +1042,21 @@
                 <div class="chart-card">
                     <div class="chart-header">
                         <h3 class="chart-title">Response Timeline</h3>
-                        <select
-                            style="padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color); font-size: 13px;">
-                            <option>Last 7 Days</option>
-                            <option>Last 30 Days</option>
-                            <option>All Time</option>
-                        </select>
+                        <form method="GET">
+                            <select name="range" onchange="this.form.submit()"
+                                style="padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color); font-size: 13px;">
+                                <option value="7" {{ request('range') == '7' ? 'selected' : '' }}>
+                                    Last 7 Days
+                                </option>
+                                <option value="30" {{ request('range') == '30' ? 'selected' : '' }}>
+                                    Last 30 Days
+                                </option>
+                                <option value="all" {{ request('range', 'all') == 'all' ? 'selected' : '' }}>
+                                    All Time
+                                </option>
+                            </select>
+                        </form>
+
                     </div>
                     <div class="chart-container">
                         <canvas id="timelineChart"></canvas>
@@ -1041,24 +1074,24 @@
                                 <i class="fas fa-download"></i> Export Data
                                 <i class="fas fa-chevron-down"></i>
                             </button>
+
                             <div class="export-menu">
-                                <a href="#" class="export-item">
+                                {{-- <a href="{{ route('responses.export', ['type' => 'excel'] + request()->query()) }}"
+                                    class="export-item">
                                     <i class="fas fa-file-excel"></i> Export to Excel
-                                </a>
-                                <a href="#" class="export-item">
-                                    <i class="fas fa-file-pdf"></i> Export to PDF
-                                </a>
-                                <a href="#" class="export-item">
+                                </a> --}}
+
+                                <a href="{{ route('responses.export', ['type' => 'csv'] + request()->query()) }}"
+                                    class="export-item">
                                     <i class="fas fa-file-csv"></i> Export to CSV
-                                </a>
-                                <a href="#" class="export-item">
-                                    <i class="fas fa-chart-bar"></i> Export Charts
                                 </a>
                             </div>
                         </div>
+
                         <button class="action-btn" onclick="refreshData()">
                             <i class="fas fa-sync-alt"></i> Refresh
                         </button>
+
                         <button class="action-btn" onclick="showAllResponses()">
                             <i class="fas fa-eye"></i> View All
                         </button>
@@ -1090,7 +1123,7 @@
                                     <th class="sortable" onclick="sortTable(2)">
                                         Status <i class="fas fa-sort sort-icon"></i>
                                     </th>
-                                    <th>Department</th>
+                                    {{-- <th>Department</th> --}}
                                     <th>Manager Rating</th>
                                     <th>Satisfaction</th>
                                     <th>Feedback</th>
@@ -1111,10 +1144,10 @@
                                         </td>
                                         <td>
                                             <div>
-                                                {{ $submission->submitted_at ? $submission->submitted_at->format('M d, Y') : '—' }}
+                                                {{ $submission->created_at->format('M d, Y') }}
                                             </div>
                                             <div style="font-size: 12px; color: var(--gray-medium);">
-                                                {{ $submission->submitted_at ? $submission->submitted_at->format('h:i A') : '' }}
+                                                {{ $submission->created_at->format('h:i A') }}
                                             </div>
                                         </td>
                                         <td>
@@ -1123,9 +1156,9 @@
                                                 {{ ucfirst($submission->status) }}
                                             </span>
                                         </td>
-                                        <td>
+                                        {{-- <td>
                                             {{ $submission->department ?? '—' }}
-                                        </td>
+                                        </td> --}}
                                         <td>
                                             @php
                                                 $managerRating = $submission->answers['q1'] ?? null;
@@ -1149,7 +1182,7 @@
                                         </td>
                                         <td>
                                             @php
-                                                $satisfaction = $submission->answers['q9'] ?? null;
+                                                $satisfaction = $submission->answers['q8'] ?? null;
                                                 $satDisplay = $satisfaction
                                                     ? ucwords(str_replace('_', ' ', $satisfaction))
                                                     : '—';
@@ -1183,7 +1216,20 @@
                                         </td>
                                         <td>
                                             @php
-                                                $feedback = $submission->answers['q6'] ?? null;
+                                                $feedback = $submission->answers['q15'] ?? null;
+                                            @endphp
+
+                                            @if ($feedback)
+                                                <div class="response-text short" title="{{ $feedback }}">
+                                                    {{ Str::limit($feedback, 10) }}
+                                                </div>
+                                            @else
+                                                —
+                                            @endif
+                                        </td>
+                                        {{-- <td>
+                                            @php
+                                                $feedback = $submission->answers['q15'] ?? null;
                                             @endphp
                                             @if ($feedback && strlen($feedback) > 50)
                                                 <div class="response-text">{{ substr($feedback, 0, 50) }}...</div>
@@ -1196,7 +1242,7 @@
                                             @else
                                                 —
                                             @endif
-                                        </td>
+                                        </td> --}}
                                         <td>
                                             <div style="display: flex; gap: 8px;">
                                                 <button class="action-btn"
@@ -1283,14 +1329,35 @@
     <script>
         // Initialize Charts
         document.addEventListener('DOMContentLoaded', function() {
+            // 1. Data coming from Laravel controller
+            const satisfactionDistribution = @json($satisfactionDistribution);
+            const timelineLabels = @json($timelineLabels);
+            const timelineCounts = @json($timelineCounts);
             // Satisfaction Chart
-            const satisfactionCtx = document.getElementById('satisfactionChart').getContext('2d');
+            const satisfactionCtx = document
+                .getElementById('satisfactionChart')
+                .getContext('2d');
+
+            const satisfactionValues = [
+                satisfactionDistribution.very_satisfied,
+                satisfactionDistribution.satisfied,
+                satisfactionDistribution.dissatisfied,
+                satisfactionDistribution.very_dissatisfied
+            ];
+
+            const totalResponses = satisfactionValues.reduce((a, b) => a + b, 0);
+
             new Chart(satisfactionCtx, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Very Satisfied', 'Satisfied', 'Dissatisfied', 'Very Dissatisfied'],
+                    labels: [
+                        'Very Satisfied',
+                        'Satisfied',
+                        'Dissatisfied',
+                        'Very Dissatisfied'
+                    ],
                     datasets: [{
-                        data: [35, 45, 15, 5],
+                        data: satisfactionValues,
                         backgroundColor: [
                             '#00A448',
                             '#0a58ca',
@@ -1315,7 +1382,12 @@
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
-                                    return `${context.label}: ${context.raw}%`;
+                                    const value = context.raw;
+                                    const percentage = totalResponses > 0 ?
+                                        ((value / totalResponses) * 100).toFixed(1) :
+                                        0;
+
+                                    return `${context.label}: ${value} (${percentage}%)`;
                                 }
                             }
                         }
@@ -1323,15 +1395,57 @@
                 }
             });
 
+            // const satisfactionCtx = document.getElementById('satisfactionChart').getContext('2d');
+            // new Chart(satisfactionCtx, {
+            //     type: 'doughnut',
+            //     data: {
+            //         labels: ['Very Satisfied', 'Satisfied', 'Dissatisfied', 'Very Dissatisfied'],
+            //         datasets: [{
+            //             data: [35, 45, 15, 5],
+            //             backgroundColor: [
+            //                 '#00A448',
+            //                 '#0a58ca',
+            //                 '#f0ad4e',
+            //                 '#dc3545'
+            //             ],
+            //             borderWidth: 2,
+            //             borderColor: '#fff'
+            //         }]
+            //     },
+            //     options: {
+            //         responsive: true,
+            //         maintainAspectRatio: false,
+            //         plugins: {
+            //             legend: {
+            //                 position: 'bottom',
+            //                 labels: {
+            //                     padding: 20,
+            //                     usePointStyle: true
+            //                 }
+            //             },
+            //             tooltip: {
+            //                 callbacks: {
+            //                     label: function(context) {
+            //                         return `${context.label}: ${context.raw}%`;
+            //                     }
+            //                 }
+            //             }
+            //         }
+            //     }
+            // });
+
             // Timeline Chart
-            const timelineCtx = document.getElementById('timelineChart').getContext('2d');
+            const timelineCtx = document
+                .getElementById('timelineChart')
+                .getContext('2d');
+
             new Chart(timelineCtx, {
                 type: 'line',
                 data: {
-                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    labels: timelineLabels,
                     datasets: [{
                         label: 'Responses',
-                        data: [12, 19, 8, 15, 22, 3, 10],
+                        data: timelineCounts,
                         borderColor: '#0a58ca',
                         backgroundColor: 'rgba(10, 88, 202, 0.1)',
                         borderWidth: 3,
@@ -1352,6 +1466,9 @@
                             beginAtZero: true,
                             grid: {
                                 color: 'rgba(0, 0, 0, 0.05)'
+                            },
+                            ticks: {
+                                precision: 0
                             }
                         },
                         x: {
@@ -1362,6 +1479,46 @@
                     }
                 }
             });
+
+
+            // const timelineCtx = document.getElementById('timelineChart').getContext('2d');
+            // new Chart(timelineCtx, {
+            //     type: 'line',
+            //     data: {
+            //         labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            //         datasets: [{
+            //             label: 'Responses',
+            //             data: [12, 19, 8, 15, 22, 3, 10],
+            //             borderColor: '#0a58ca',
+            //             backgroundColor: 'rgba(10, 88, 202, 0.1)',
+            //             borderWidth: 3,
+            //             fill: true,
+            //             tension: 0.4
+            //         }]
+            //     },
+            //     options: {
+            //         responsive: true,
+            //         maintainAspectRatio: false,
+            //         plugins: {
+            //             legend: {
+            //                 display: false
+            //             }
+            //         },
+            //         scales: {
+            //             y: {
+            //                 beginAtZero: true,
+            //                 grid: {
+            //                     color: 'rgba(0, 0, 0, 0.05)'
+            //                 }
+            //             },
+            //             x: {
+            //                 grid: {
+            //                     color: 'rgba(0, 0, 0, 0.05)'
+            //                 }
+            //             }
+            //         }
+            //     }
+            // });
         });
 
 
@@ -1381,75 +1538,15 @@
 
         // Modal Functions
         function viewResponse(submissionId) {
-            // In a real app, this would fetch data via AJAX
-            const modalContent = `
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px;">
-                    <div>
-                        <h4 style="margin-bottom: 15px; color: var(--gray-dark); font-size: 16px;">Submission Information</h4>
-                        <div style="background: var(--gray-light); padding: 20px; border-radius: var(--radius-sm);">
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
-                                <span style="color: var(--gray-medium);">Email:</span>
-                                <span style="font-weight: 500;">employee@ebo.org</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
-                                <span style="color: var(--gray-medium);">Submitted:</span>
-                                <span>${new Date().toLocaleDateString('en-US', { 
-                                    month: 'short', 
-                                    day: 'numeric', 
-                                    year: 'numeric',
-                                    hour: '2-digit',
-                                    minute: '2-digit'
-                                })}</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
-                                <span style="color: var(--gray-medium);">Status:</span>
-                                <span class="status-badge confirmed" style="display: inline-flex;">Confirmed</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between;">
-                                <span style="color: var(--gray-medium);">Completion Time:</span>
-                                <span>12 minutes</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <h4 style="margin-bottom: 15px; color: var(--gray-dark); font-size: 16px;">Key Responses</h4>
-                        <div style="background: var(--gray-light); padding: 20px; border-radius: var(--radius-sm);">
-                            <div style="margin-bottom: 15px;">
-                                <div style="color: var(--gray-medium); font-size: 13px; margin-bottom: 5px;">Overall Satisfaction</div>
-                                <div style="font-weight: 500; color: var(--success-color);">Very Satisfied</div>
-                            </div>
-                            <div style="margin-bottom: 15px;">
-                                <div style="color: var(--gray-medium); font-size: 13px; margin-bottom: 5px;">Manager Rating</div>
-                                <div style="font-weight: 500;">Agree</div>
-                            </div>
-                            <div>
-                                <div style="color: var(--gray-medium); font-size: 13px; margin-bottom: 5px;">Work Stress Level</div>
-                                <div style="font-weight: 500;">Sometimes</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div style="grid-column: 1 / -1;">
-                        <h4 style="margin-bottom: 15px; color: var(--gray-dark); font-size: 16px;">Detailed Responses</h4>
-                        <div style="background: var(--gray-light); padding: 25px; border-radius: var(--radius-sm);">
-                            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
-                                ${Array.from({length: 8}, (_, i) => buildDetails(i) ).join('')}
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div style="grid-column: 1 / -1;">
-                        <h4 style="margin-bottom: 15px; color: var(--gray-dark); font-size: 16px;">Open Feedback</h4>
-                        <div style="background: var(--gray-light); padding: 25px; border-radius: var(--radius-sm); white-space: pre-line; line-height: 1.6;">
-                            "I appreciate the supportive team environment and opportunities for professional growth. The management has been responsive to feedback, and I feel my contributions are valued. However, I would suggest improving communication between departments and providing more resources for remote work."
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            document.getElementById('responseModalBody').innerHTML = modalContent;
-            document.getElementById('responseModal').classList.add('active');
+            fetch(`/admin/survey/${submissionId}`)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('responseModalBody').innerHTML = html;
+                    document.getElementById('responseModal').classList.add('active');
+                })
+                .catch(() => {
+                    alert('Failed to load response details');
+                });
         }
 
         function closeModal() {
@@ -1459,6 +1556,10 @@
         function showFullResponse(submissionId) {
             // Similar to viewResponse but focused on full text
             viewResponse(submissionId);
+        }
+
+        function clearFilters() {
+            window.location.href = window.location.pathname;
         }
 
         // Table Sorting
@@ -1520,25 +1621,52 @@
             location.reload();
         }
 
+        // function showAllResponses() {
+        //     // Reset filters and show all
+        //     document.getElementById('statusFilter').value = 'all';
+        //     document.getElementById('departmentFilter').value = 'all';
+        //     document.getElementById('dateFrom').value = '';
+        //     document.getElementById('dateTo').value = '';
+        //     applyFilters();
+        // }
         function showAllResponses() {
-            // Reset filters and show all
-            document.getElementById('statusFilter').value = 'all';
-            document.getElementById('departmentFilter').value = 'all';
-            document.getElementById('dateFrom').value = '';
-            document.getElementById('dateTo').value = '';
-            applyFilters();
+            window.location.href = window.location.pathname;
         }
 
         function resendConfirmation(submissionId) {
-            if (confirm('Resend confirmation email to this user?')) {
-                // In a real app, this would call an API
-                alert('Confirmation email resent!');
+            if (!confirm('Resend confirmation email to this user?')) {
+                return;
             }
+
+            fetch(`/admin/survey/${submissionId}/resend-confirmation`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document
+                            .querySelector('meta[name="csrf-token"]')
+                            .getAttribute('content'),
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(async response => {
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(data.message || 'Failed to resend email');
+                    }
+
+                    alert(data.message);
+                })
+                .catch(error => {
+                    alert(error.message);
+                });
         }
 
-        function exportResponse(submissionId) {
-            // In a real app, this would generate and download a file
-            alert('Exporting response data...');
+        function exportResponse(id) {
+            // window.open(
+            //     `/admin/survey/${id}/export-pdf`,
+            //     '_blank'
+            // );
+            window.location.href = `/admin/survey/${id}/export-pdf`;
         }
 
         // Close modal when clicking outside

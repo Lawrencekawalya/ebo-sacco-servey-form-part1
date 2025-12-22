@@ -1,0 +1,73 @@
+<?php
+
+namespace App\Exports;
+
+use Maatwebsite\Excel\Concerns\FromArray;
+
+class SavingsSubmissionsExport implements FromArray
+{
+    protected $rows;
+
+    public function __construct($rows)
+    {
+        $this->rows = $rows;
+    }
+
+    public function array(): array
+    {
+        $fields = config('survey_form');
+        $questions = [];
+
+        foreach ($fields as $field) {
+            $key = $field['key'];
+
+            if (str_ends_with($key, '_reason')) {
+                $baseKey = str_replace('_reason', '', $key);
+                $questions[$baseKey]['reason'] = $field;
+            } else {
+                $questions[$key]['answer'] = $field;
+            }
+        }
+
+        $data = [];
+
+        // Header
+        $header = ['ID', 'Email', 'Status', 'Submitted At'];
+
+        foreach ($questions as $question) {
+            if (isset($question['answer'])) {
+                $header[] = $question['answer']['label'];
+            }
+            if (isset($question['reason'])) {
+                $header[] = $question['reason']['label'];
+            }
+        }
+
+        $data[] = $header;
+
+        // Rows
+        foreach ($this->rows as $row) {
+            $answers = $row->answers ?? [];
+
+            $rowData = [
+                $row->id,
+                $row->email,
+                $row->status,
+                optional($row->submitted_at)->format('Y-m-d H:i'),
+            ];
+
+            foreach ($questions as $question) {
+                if (isset($question['answer'])) {
+                    $rowData[] = $answers[$question['answer']['key']] ?? '';
+                }
+                if (isset($question['reason'])) {
+                    $rowData[] = $answers[$question['reason']['key']] ?? '';
+                }
+            }
+
+            $data[] = $rowData;
+        }
+
+        return $data;
+    }
+}
