@@ -71,22 +71,22 @@ return [
     ],
     [
         'label' => 'Tools and support available',
-        'key' => 'q11',
+        'key' => 'q6',
         'type' => 'radio',
     ],
     [
         'label' => 'Reason (Tools and support)',
-        'key' => 'q11_reason',
+        'key' => 'q6_reason',
         'type' => 'text',
     ],
     [
         'label' => 'Constructive feedback received',
-        'key' => 'q12',
+        'key' => 'q7',
         'type' => 'radio',
     ],
     [
         'label' => 'Reason (Feedback)',
-        'key' => 'q12_reason',
+        'key' => 'q7_reason',
         'type' => 'text',
     ],
 
@@ -97,42 +97,42 @@ return [
     */
     [
         'label' => 'Overall satisfaction at EBO',
-        'key' => 'q9',
+        'key' => 'q8',
         'type' => 'radio',
     ],
     [
         'label' => 'Reason (Satisfaction)',
-        'key' => 'q9_reason',
+        'key' => 'q8_reason',
         'type' => 'text',
     ],
     [
         'label' => 'EBO is going in the right direction',
-        'key' => 'q10',
+        'key' => 'q9',
         'type' => 'radio',
     ],
     [
         'label' => 'Reason (Direction)',
-        'key' => 'q10_reason',
+        'key' => 'q9_reason',
         'type' => 'text',
     ],
     [
         'label' => 'Culture transformation impact',
-        'key' => 'q13',
+        'key' => 'q10',
         'type' => 'radio',
     ],
     [
         'label' => 'Reason (Culture impact)',
-        'key' => 'q13_reason',
+        'key' => 'q10_reason',
         'type' => 'text',
     ],
     [
         'label' => 'Performance recognition',
-        'key' => 'q14',
+        'key' => 'q11',
         'type' => 'radio',
     ],
     [
         'label' => 'Reason (Recognition)',
-        'key' => 'q14_reason',
+        'key' => 'q11_reason',
         'type' => 'text',
     ],
 
@@ -143,37 +143,37 @@ return [
     */
     [
         'label' => 'What do you like about EBO',
-        'key' => 'q6',
+        'key' => 'q12',
         'type' => 'text',
     ],
     [
-        'label' => 'Dissatisfaction 1',
-        'key' => 'q7_1',
+        'label' => 'Dissatisfaction point 1',
+        'key' => 'q13_1',
         'type' => 'text',
     ],
     [
-        'label' => 'Dissatisfaction 2',
-        'key' => 'q7_2',
+        'label' => 'Dissatisfaction point 2',
+        'key' => 'q13_2',
         'type' => 'text',
     ],
     [
-        'label' => 'Dissatisfaction 3',
-        'key' => 'q7_3',
+        'label' => 'Dissatisfaction point 3',
+        'key' => 'q13_3',
         'type' => 'text',
     ],
     [
         'label' => 'Suggestion 1',
-        'key' => 'q8_1',
+        'key' => 'q14_1',
         'type' => 'text',
     ],
     [
         'label' => 'Suggestion 2',
-        'key' => 'q8_2',
+        'key' => 'q14_2',
         'type' => 'text',
     ],
     [
         'label' => 'Suggestion 3',
-        'key' => 'q8_3',
+        'key' => 'q14_3',
         'type' => 'text',
     ],
     [

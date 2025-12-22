@@ -427,23 +427,23 @@
                 </div>
 
                 <div class="question">
-                    <label><span class="question-number">11</span> Do you have the tools and support needed to do your
+                    <label><span class="question-number">6</span> Do you have the tools and support needed to do your
                         job well?</label>
                     <div class="options-row">
-                        <label><input type="radio" name="q11" value="yes" required> Yes</label>
-                        <label><input type="radio" name="q11" value="no"> No</label>
+                        <label><input type="radio" name="q6" value="yes" required> Yes</label>
+                        <label><input type="radio" name="q6" value="no"> No</label>
                     </div>
-                    <textarea name="q11_reason" placeholder="Reasons for the above (optional)"></textarea>
+                    <textarea name="q6_reason" placeholder="Reasons for the above (optional)"></textarea>
                 </div>
 
                 <div class="question">
-                    <label><span class="question-number">12</span> I receive constructive feedback that helps me
+                    <label><span class="question-number">7</span> I receive constructive feedback that helps me
                         improve at my workplace.</label>
                     <div class="options-row">
-                        <label><input type="radio" name="q12" value="yes" required> Yes</label>
-                        <label><input type="radio" name="q12" value="no"> No</label>
+                        <label><input type="radio" name="q7" value="yes" required> Yes</label>
+                        <label><input type="radio" name="q7" value="no"> No</label>
                     </div>
-                    <textarea name="q12_reason" placeholder="Reasons for the above (optional)"></textarea>
+                    <textarea name="q7_reason" placeholder="Reasons for the above (optional)"></textarea>
                 </div>
 
                 <div class="buttons">
@@ -458,50 +458,50 @@
                 <div class="section-description">Questions about EBO's culture, direction, and recognition.</div>
 
                 <div class="question">
-                    <label><span class="question-number">9</span> How satisfied are you working for EBO?</label>
+                    <label><span class="question-number">8</span> How satisfied are you working for EBO?</label>
                     <div class="options-row">
-                        <label><input type="radio" name="q9" value="very_satisfied" required> Very
+                        <label><input type="radio" name="q8" value="very_satisfied" required> Very
                             satisfied</label>
-                        <label><input type="radio" name="q9" value="satisfied"> Satisfied</label>
-                        <label><input type="radio" name="q9" value="dissatisfied"> Dissatisfied</label>
-                        <label><input type="radio" name="q9" value="very_dissatisfied"> Very
+                        <label><input type="radio" name="q8" value="satisfied"> Satisfied</label>
+                        <label><input type="radio" name="q8" value="dissatisfied"> Dissatisfied</label>
+                        <label><input type="radio" name="q8" value="very_dissatisfied"> Very
                             dissatisfied</label>
+                    </div>
+                    <textarea name="q8_reason" placeholder="Reasons for above (optional)"></textarea>
+                </div>
+
+                <div class="question">
+                    <label><span class="question-number">9</span> I believe EBO is going in the right
+                        direction.</label>
+                    <div class="options-row">
+                        <label><input type="radio" name="q9" value="strongly_agree" required> Strongly
+                            agree</label>
+                        <label><input type="radio" name="q9" value="agree"> Agree</label>
+                        <label><input type="radio" name="q9" value="disagree"> Disagree</label>
+                        <label><input type="radio" name="q9" value="strongly_disagree"> Strongly
+                            Disagree</label>
                     </div>
                     <textarea name="q9_reason" placeholder="Reasons for above (optional)"></textarea>
                 </div>
 
                 <div class="question">
-                    <label><span class="question-number">10</span> I believe EBO is going in the right
-                        direction.</label>
-                    <div class="options-row">
-                        <label><input type="radio" name="q10" value="strongly_agree" required> Strongly
-                            agree</label>
-                        <label><input type="radio" name="q10" value="agree"> Agree</label>
-                        <label><input type="radio" name="q10" value="disagree"> Disagree</label>
-                        <label><input type="radio" name="q10" value="strongly_disagree"> Strongly
-                            Disagree</label>
-                    </div>
-                    <textarea name="q10_reason" placeholder="Reasons for above (optional)"></textarea>
-                </div>
-
-                <div class="question">
-                    <label><span class="question-number">13</span> Do you feel the culture transformation project has
+                    <label><span class="question-number">10</span> Do you feel the culture transformation project has
                         made any impact on EBO?</label>
                     <div class="options-row">
-                        <label><input type="radio" name="q13" value="yes" required> Yes</label>
-                        <label><input type="radio" name="q13" value="no"> No</label>
+                        <label><input type="radio" name="q10" value="yes" required> Yes</label>
+                        <label><input type="radio" name="q10" value="no"> No</label>
                     </div>
-                    <textarea name="q13_reason" placeholder="Reasons for the above (optional)"></textarea>
+                    <textarea name="q10_reason" placeholder="Reasons for the above (optional)"></textarea>
                 </div>
 
                 <div class="question">
-                    <label><span class="question-number">14</span> Do you feel good performance is recognized and
+                    <label><span class="question-number">11</span> Do you feel good performance is recognized and
                         appreciated?</label>
                     <div class="options-row">
-                        <label><input type="radio" name="q14" value="yes" required> Yes</label>
-                        <label><input type="radio" name="q14" value="no"> No</label>
+                        <label><input type="radio" name="q11" value="yes" required> Yes</label>
+                        <label><input type="radio" name="q11" value="no"> No</label>
                     </div>
-                    <textarea name="q14_reason" placeholder="Reasons for the above (optional)"></textarea>
+                    <textarea name="q11_reason" placeholder="Reasons for the above (optional)"></textarea>
                 </div>
 
                 <div class="buttons">
@@ -516,27 +516,27 @@
                 <div class="section-description">Your detailed feedback helps us improve. Please be candid.</div>
 
                 <div class="question">
-                    <label><span class="question-number">6</span> What do you like about EBO?</label>
-                    <textarea name="q6" placeholder="Please share what you appreciate about working at EBO..."></textarea>
+                    <label><span class="question-number">12</span> What do you like about EBO?</label>
+                    <textarea name="q12" placeholder="Please share what you appreciate about working at EBO..."></textarea>
                 </div>
 
                 <div class="question">
-                    <label><span class="question-number">7</span> Enlist three things you are extremely dissatisfied
+                    <label><span class="question-number">13</span> Enlist three things you are extremely dissatisfied
                         about at EBO</label>
                     <div class="multiple-inputs">
-                        <input type="text" name="q7_1" placeholder="1. First point of dissatisfaction">
-                        <input type="text" name="q7_2" placeholder="2. Second point of dissatisfaction">
-                        <input type="text" name="q7_3" placeholder="3. Third point of dissatisfaction">
+                        <input type="text" name="q13_1" placeholder="1. First point of dissatisfaction">
+                        <input type="text" name="q13_2" placeholder="2. Second point of dissatisfaction">
+                        <input type="text" name="q13_3" placeholder="3. Third point of dissatisfaction">
                     </div>
                 </div>
 
                 <div class="question">
-                    <label><span class="question-number">8</span> What are the three things you would like to suggest
+                    <label><span class="question-number">14</span> What are the three things you would like to suggest
                         to make EBO's functionality better?</label>
                     <div class="multiple-inputs">
-                        <input type="text" name="q8_1" placeholder="1. First suggestion">
-                        <input type="text" name="q8_2" placeholder="2. Second suggestion">
-                        <input type="text" name="q8_3" placeholder="3. Third suggestion">
+                        <input type="text" name="q14_1" placeholder="1. First suggestion">
+                        <input type="text" name="q14_2" placeholder="2. Second suggestion">
+                        <input type="text" name="q14_3" placeholder="3. Third suggestion">
                     </div>
                 </div>
 
