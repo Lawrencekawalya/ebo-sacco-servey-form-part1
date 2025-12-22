@@ -6,9 +6,15 @@
     <title>Staff Satisfaction Survey 2025 - EBO</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: "Raleway", sans-serif;
+            font-optical-sizing: auto;
             background: #f4f6f8;
             margin: 0;
             color: #333;
@@ -240,6 +246,14 @@
             margin: 20px 0;
         }
 
+        .highlight-box-danger {
+            background: #fdf4e8;
+            border: 1px solid #fed4b6;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
         .multiple-inputs {
             display: flex;
             flex-direction: column;
@@ -278,12 +292,18 @@
 
 <body>
 
-    <header>
+    <header style="padding-top: 20px">
         <img src="{{ asset('images/logo.png') }}" alt="EBO Logo">
         <h1>Staff Satisfaction Survey 2025</h1>
     </header>
 
     <div class="container">
+
+        @if (session()->has('error'))
+            <div class=".highlight-box-danger">
+                <p>{{ session()->get('error') }}</p>
+            </div>
+        @endif
 
         <!-- Progress Bar -->
         <div id="progress-container">
@@ -536,7 +556,9 @@
 
     <footer>
         <p style="padding:15px;font-size:14px;color:#555;text-align:center;">
-            <strong>STAFF SATISFACTION SURVEY 2025</strong><br>
+            <strong>STAFF SATISFACTION SURVEY 2025</strong>
+            <br>
+            <br>
             EBO - Confidential Feedback System
         </p>
     </footer>

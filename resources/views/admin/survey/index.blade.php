@@ -1364,6 +1364,21 @@
             });
         });
 
+
+        function buildDetails(i) {
+            return `
+               <div>
+                    <div style="font-size: 13px; color: var(--gray-medium); margin-bottom: 8px;"> Q${
+                        i + 1}.${
+                        ['Manager cares about concerns', 'Feel appreciated', 'Work stress frequency','Suggestions taken seriously'][i] || 'Question ' + (i + 1)
+                        } </div>
+                    <div style="font-weight: 500;"> ${
+                        ['Agree', 'Strongly Agree', 'Sometimes', 'Always'][i] || 'Response ' + (i + 1)
+                        } </div>
+                </div>
+            `;
+        }
+
         // Modal Functions
         function viewResponse(submissionId) {
             // In a real app, this would fetch data via AJAX
@@ -1419,21 +1434,7 @@
                         <h4 style="margin-bottom: 15px; color: var(--gray-dark); font-size: 16px;">Detailed Responses</h4>
                         <div style="background: var(--gray-light); padding: 25px; border-radius: var(--radius-sm);">
                             <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
-                                ${Array.from({length: 8}, (_, i) => ` <
-                div >
-                <
-                div style = "font-size: 13px; color: var(--gray-medium); margin-bottom: 8px;" > Q$ {
-                    i + 1
-                }.$ {
-                    ['Manager cares about concerns', 'Feel appreciated', 'Work stress frequency',
-                        'Suggestions taken seriously'
-                    ][i] || 'Question ' + (i + 1)
-                } < /div> <
-            div style = "font-weight: 500;" > $ {
-                ['Agree', 'Strongly Agree', 'Sometimes', 'Always'][i] || 'Response ' + (i + 1)
-            } < /div> < /
-            div >
-                `).join('')}
+                                ${Array.from({length: 8}, (_, i) => buildDetails(i) ).join('')}
                             </div>
                         </div>
                     </div>

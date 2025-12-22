@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ConfirmSavingsSubmissionMail;
+use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class SavingsSubmissionController extends Controller
 {
@@ -16,7 +18,7 @@ class SavingsSubmissionController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'email' => ['required', 'email'],
+            'email' => ['required', 'email:rfc,dns'],
         ]);
 
         $email = strtolower($validated['email']);
@@ -49,22 +51,33 @@ class SavingsSubmissionController extends Controller
                 return is_array($value) ? array_values($value) : $value;
             });
 
-        // 4. Create pending submission with answers
-        $submission = SavingsSubmission::create([
-            'email' => $email,
-            'status' => 'pending',
-            'answers' => $answers,
-            'confirmation_token' => Str::uuid()->toString(),
-            'token_expires_at' => now()->addHours(2),
-            'submitted_at' => now(),
-        ]);
+        try {
+            DB::beginTransaction();
+            // 4. Create pending submission with answers
+            $submission = SavingsSubmission::create([
+                'email' => $email,
+                'status' => 'pending',
+                'answers' => $answers,
+                'confirmation_token' => Str::uuid()->toString(),
+                'token_expires_at' => now()->addHours(2),
+                'submitted_at' => now(),
+            ]);
 
-        // 5. Send confirmation email
-        Mail::to($email)->send(new ConfirmSavingsSubmissionMail($submission));
 
-        return redirect()->route('submission.email-sent')->with([
-            'email' => $email,
-        ]);
+            // 5. Send confirmation email
+            Mail::to($email)->send(new ConfirmSavingsSubmissionMail($submission));
+
+            DB::commit();
+
+            return redirect()->route('submission.email-sent')->with([
+                'email' => $email,
+            ]);
+        } catch (Throwable $th) {
+            DB::rollBack();
+            return back()->with([
+                'error' => 'Please use your official EBO email address.' . $th->getMessage(),
+            ]);
+        }
     }
 
     // public function store(Request $request)
@@ -219,6 +232,4 @@ class SavingsSubmissionController extends Controller
                 'confirmed_at' => now(),
             ]);
     }
-
-
 }
