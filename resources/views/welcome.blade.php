@@ -247,8 +247,8 @@
         }
 
         .highlight-box-danger {
-            background: #fdf4e8;
-            border: 1px solid #fed4b6;
+            background: #fde8e8;
+            border: 1px solid #feb7b6;
             border-radius: 6px;
             padding: 15px;
             margin: 20px 0;
@@ -300,7 +300,7 @@
     <div class="container">
 
         @if (session()->has('error'))
-            <div class=".highlight-box-danger">
+            <div class="highlight-box-danger">
                 <p>{{ session()->get('error') }}</p>
             </div>
         @endif
@@ -318,7 +318,10 @@
             <div class="form-step active">
                 <h2>Before We Begin</h2>
                 <div class="highlight-box">
-                    <p>Please enter your official EBO email address to start the survey. Your responses will be kept
+                    <p>Please enter your <strong style="text-decoration: underline">correct official EBO email
+                            address</strong>
+                        to start the survey. Your responses
+                        will be kept
                         confidential.</p>
                 </div>
 
@@ -389,7 +392,8 @@
                 </div>
 
                 <div class="question">
-                    <label><span class="question-number">4</span> How often are your suggestions at work taken seriously
+                    <label><span class="question-number">4</span> How often are your suggestions at work taken
+                        seriously
                         at your work station?</label>
                     <div class="options-row">
                         <label><input type="radio" name="q4" value="always" required> Always</label>

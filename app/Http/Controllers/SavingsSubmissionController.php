@@ -75,8 +75,17 @@ class SavingsSubmissionController extends Controller
         } catch (Throwable $th) {
             DB::rollBack();
             return back()->with([
-                'error' => 'Please use your official EBO email address.' . $th->getMessage(),
+                'error' => $this->buildCustomMessage($th->getMessage()),
             ]);
+        }
+    }
+
+    public function buildCustomMessage(string $message)
+    {
+        if (str_contains($message, '550 No Such User Here')) {
+            return "Please use your CORRECT official EBO email address.";
+        } else {
+            return $message;
         }
     }
 
@@ -147,7 +156,7 @@ class SavingsSubmissionController extends Controller
     public function checkEmailStatus(Request $request)
     {
         $request->validate([
-            'email' => ['required', 'email'],
+            'email' => ['required', 'email:rfc,dns'],
         ]);
 
         $email = strtolower($request->email);
