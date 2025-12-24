@@ -950,31 +950,31 @@
                     </div>
                 </div>
 
-                <div class="stat-card">
+                {{-- <div class="stat-card">
                     <div class="stat-icon confirmed">
                         <i class="fas fa-check-circle"></i>
                     </div>
                     <div class="stat-content">
                         <div class="stat-value">{{ $confirmedCount }}</div>
                         <div class="stat-label">Confirmed Submissions</div>
-                        {{-- <div class="stat-change">
+                        <div class="stat-change">
                             <i class="fas fa-arrow-up"></i> 18% increase
-                        </div> --}}
+                        </div>
                     </div>
-                </div>
+                </div> --}}
 
-                <div class="stat-card">
+                {{-- <div class="stat-card">
                     <div class="stat-icon pending">
                         <i class="fas fa-clock"></i>
                     </div>
                     <div class="stat-content">
                         <div class="stat-value">{{ $pendingCount }}</div>
                         <div class="stat-label">Pending Confirmations</div>
-                        {{-- <div class="stat-change negative">
+                        <div class="stat-change negative">
                             <i class="fas fa-arrow-down"></i> 5% decrease
-                        </div> --}}
+                        </div>
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="stat-card">
                     <div class="stat-icon rate">
@@ -995,7 +995,7 @@
             <!-- Filters Bar -->
             <form method="GET" action="{{ url()->current() }}" class="filters-bar">
 
-                <div class="filter-group">
+                {{-- <div class="filter-group">
                     <label class="filter-label">Status:</label>
                     <select class="filter-select" name="status" id="statusFilter">
                         <option value="all">All Statuses</option>
@@ -1003,7 +1003,7 @@
                         <option value="pending" @selected(request('status') === 'pending')>Pending</option>
                         <option value="draft" @selected(request('status') === 'draft')>Draft</option>
                     </select>
-                </div>
+                </div> --}}
 
                 <div class="filter-group">
                     <label class="filter-label">Date Range:</label>
@@ -1120,9 +1120,9 @@
                                     <th class="sortable" onclick="sortTable(1)">
                                         Submitted At <i class="fas fa-sort sort-icon"></i>
                                     </th>
-                                    <th class="sortable" onclick="sortTable(2)">
+                                    {{-- <th class="sortable" onclick="sortTable(2)">
                                         Status <i class="fas fa-sort sort-icon"></i>
-                                    </th>
+                                    </th> --}}
                                     {{-- <th>Department</th> --}}
                                     <th>Manager Rating</th>
                                     <th>Satisfaction</th>
@@ -1150,12 +1150,12 @@
                                                 {{ $submission->created_at->format('h:i A') }}
                                             </div>
                                         </td>
-                                        <td>
+                                        {{-- <td>
                                             <span class="status-badge {{ $submission->status }}">
                                                 <i class="fas fa-circle" style="font-size: 8px;"></i>
                                                 {{ ucfirst($submission->status) }}
                                             </span>
-                                        </td>
+                                        </td> --}}
                                         {{-- <td>
                                             {{ $submission->department ?? '—' }}
                                         </td> --}}

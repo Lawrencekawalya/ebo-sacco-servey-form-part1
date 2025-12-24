@@ -10,11 +10,16 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::table('savings_submissions', function (Blueprint $table) {
-            $table
-                ->json('answers')
-                ->nullable()
-                ->after('email');
+        Schema::create('savings_submissions', function (Blueprint $table) {
+            $table->id();
+
+            // Anonymous survey content
+            $table->json('answers');
+
+            // Submission time
+            $table->timestamp('submitted_at')->useCurrent();
+
+            $table->timestamps();
         });
     }
 
@@ -23,8 +28,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::table('savings_submissions', function (Blueprint $table) {
-            $table->dropColumn('answers');
-        });
+        Schema::dropIfExists('savings_submissions');
     }
 };

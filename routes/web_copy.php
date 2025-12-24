@@ -16,14 +16,27 @@ use App\Http\Controllers\ResponseExportController;
 Route::get('/', [SavingsSubmissionController::class, 'showForm'])
     ->name('survey.form');
 
-// Submit anonymous survey
+// Check email status (AJAX)
+Route::post('/submission/check-email', [SavingsSubmissionController::class, 'checkEmailStatus'])
+    ->name('submission.check-email');
+
+// Submit survey
 Route::post('/savings-submissions', [SavingsSubmissionController::class, 'store'])
     ->name('savings-submissions.store');
 
-// Thank-you page
-Route::get('/thank-you', function () {
-    return view('submission.thank-you');
-})->name('submission.thank-you');
+// Email confirmation
+Route::get('/confirm-submission/{token}', [SavingsSubmissionController::class, 'confirm'])
+    ->name('savings-submissions.confirm');
+
+// Email sent notice
+Route::get('/submission/email-sent', function () {
+    return view('submission.email-sent');
+})->name('submission.email-sent');
+
+// Confirmation result page
+Route::get('/submission/confirmation-result', function () {
+    return view('submission.confirmation-result');
+})->name('submission.confirmation-result');
 
 
 /*
@@ -47,11 +60,16 @@ Route::middleware(['auth'])->group(function () {
         [SurveyResponseController::class, 'exportPdf']
     )->name('admin.survey.export.pdf');
 
+    // Resend confirmation email
+    Route::post(
+        '/admin/survey/{submission}/resend-confirmation',
+        [SurveyResponseController::class, 'resendConfirmation']
+    )->name('admin.survey.resend');
+
     // Export CSV (filtered)
     Route::get('/responses/export/{type}', [ResponseExportController::class, 'export'])
         ->name('responses.export');
-
-    // Logout
+    //Logout
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
 });

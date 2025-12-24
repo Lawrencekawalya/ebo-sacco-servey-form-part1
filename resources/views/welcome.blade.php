@@ -316,7 +316,7 @@
             @csrf
 
             <!-- STEP 0: EMAIL VERIFICATION -->
-            <div class="form-step active">
+            {{-- <div class="form-step active">
                 <h2>Before We Begin</h2>
                 <div class="highlight-box">
                     <p>Please enter your <strong style="text-decoration: underline">correct official EBO email
@@ -335,10 +335,10 @@
 
                 <div class="buttons">
                     <span></span>
-                    {{-- <button type="button" onclick="nextStep()">Start Survey</button> --}}
+                    <button type="button" onclick="nextStep()">Start Survey</button>
                     <button type="button" onclick="checkEmailAndProceed()">Start Survey</button>
                 </div>
-            </div>
+            </div> --}}
 
             <!-- STEP 1: MANAGEMENT & SUPPORT -->
             <div class="form-step">
@@ -569,61 +569,6 @@
     </footer>
 
     <script>
-        async function checkEmailAndProceed() {
-            const step = steps[0];
-            const emailInput = step.querySelector('input[type="email"]');
-            const emailError = step.querySelector('#email-error');
-
-            const email = emailInput.value.trim().toLowerCase();
-
-            if (!isValidEmail(email)) {
-                emailError.textContent = 'Please enter a valid email address.';
-                emailError.classList.add('active');
-                return;
-            }
-
-            if (!isAllowedDomain(email)) {
-                emailError.textContent = 'Please use your official EBO email address (@ebo.co.ug).';
-                emailError.classList.add('active');
-                return;
-            }
-
-            emailError.classList.remove('active');
-
-            try {
-                const response = await fetch("{{ route('submission.check-email') }}", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                    },
-                    body: JSON.stringify({
-                        email
-                    }),
-                });
-
-                const data = await response.json();
-
-                if (data.status === 'confirmed') {
-                    window.location.href = "{{ route('submission.confirmation-result') }}";
-                    return;
-                }
-
-                if (data.status === 'pending') {
-                    window.location.href = "{{ route('submission.email-sent') }}";
-                    return;
-                }
-
-                // status === new
-                currentStep++;
-                showStep(currentStep);
-
-            } catch (error) {
-                alert('Unable to verify email at the moment. Please try again.');
-            }
-        }
-
-
         let currentStep = 0;
         const steps = document.querySelectorAll('.form-step');
         const progressBar = document.getElementById('progress-bar');
@@ -657,30 +602,30 @@
             });
 
             // Validate email step
-            if (index === 0) {
-                const email = step.querySelector('input[type="email"]');
-                const emailError = step.querySelector('#email-error');
+            // if (index === 0) {
+            //     const email = step.querySelector('input[type="email"]');
+            //     const emailError = step.querySelector('#email-error');
 
-                const value = email.value.trim().toLowerCase();
+            //     const value = email.value.trim().toLowerCase();
 
-                if (!value || !isValidEmail(value)) {
-                    emailError.textContent = 'Please enter a valid email address.';
-                    emailError.classList.add('active');
-                    email.style.borderColor = '#dc3545';
-                    return false;
-                }
+            //     if (!value || !isValidEmail(value)) {
+            //         emailError.textContent = 'Please enter a valid email address.';
+            //         emailError.classList.add('active');
+            //         email.style.borderColor = '#dc3545';
+            //         return false;
+            //     }
 
-                if (!isAllowedDomain(value)) {
-                    emailError.textContent = 'Please use your official EBO email address (@ebo.co.ug).';
-                    emailError.classList.add('active');
-                    email.style.borderColor = '#dc3545';
-                    return false;
-                }
+            //     if (!isAllowedDomain(value)) {
+            //         emailError.textContent = 'Please use your official EBO email address (@ebo.co.ug).';
+            //         emailError.classList.add('active');
+            //         email.style.borderColor = '#dc3545';
+            //         return false;
+            //     }
 
-                emailError.classList.remove('active');
-                email.style.borderColor = '#0a58ca';
-                return true;
-            }
+            //     emailError.classList.remove('active');
+            //     email.style.borderColor = '#0a58ca';
+            //     return true;
+            // }
 
 
             // Validate radio groups in other steps
@@ -718,14 +663,14 @@
             return true;
         }
 
-        function isValidEmail(email) {
-            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return re.test(email);
-        }
+        // function isValidEmail(email) {
+        //     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        //     return re.test(email);
+        // }
 
-        function isAllowedDomain(email) {
-            return email.toLowerCase().endsWith('@ebo.co.ug');
-        }
+        // function isAllowedDomain(email) {
+        //     return email.toLowerCase().endsWith('@ebo.co.ug');
+        // }
 
         function nextStep() {
             if (!validateStep(currentStep)) {
