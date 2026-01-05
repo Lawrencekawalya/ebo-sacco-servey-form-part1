@@ -1309,6 +1309,8 @@
                 <p>EBO Staff Satisfaction Survey 2025 Admin Dashboard • Last updated: {{ date('F j, Y, g:i a') }}</p>
                 <p>For technical support, contact <a href="mailto:it-support@ebo.org">IT Support</a> | <a
                         href="#">Privacy Policy</a> | <a href="#">Terms of Use</a></p>
+                <br>
+                <p>Powered by <strong>Right Click Signs Uganda</strong></p>
             </div>
         </main>
     </div>

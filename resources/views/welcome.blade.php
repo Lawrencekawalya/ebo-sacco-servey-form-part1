@@ -20,6 +20,14 @@
             color: #333;
         }
 
+        .hide {
+            display: none;
+        }
+
+        .show {
+            display: block;
+        }
+
         header {
             background: #ffffff;
             text-align: center;
@@ -355,7 +363,7 @@
                         <label><input type="radio" name="q1" value="agree"> Agree</label>
                         <label><input type="radio" name="q1" value="strongly_agree"> Strongly agree</label>
                     </div>
-                    <textarea name="q1_reason" placeholder="Reasons for above (optional)"></textarea>
+                    {{-- <textarea name="q1_reason" placeholder="Reasons for above (optional)"></textarea> --}}
                 </div>
 
                 <div class="question">
@@ -367,7 +375,7 @@
                         <label><input type="radio" name="q2" value="disagree"> Disagree</label>
                         <label><input type="radio" name="q2" value="strongly_disagree"> Strongly Disagree</label>
                     </div>
-                    <textarea name="q2_reason" placeholder="Reasons for above (optional)"></textarea>
+                    {{-- <textarea name="q2_reason" placeholder="Reasons for above (optional)"></textarea> --}}
                 </div>
 
                 <div class="buttons">
@@ -389,7 +397,7 @@
                         <label><input type="radio" name="q3" value="rarely"> Rarely</label>
                         <label><input type="radio" name="q3" value="never"> Never</label>
                     </div>
-                    <textarea name="q3_reason" placeholder="Reasons for above (optional)"></textarea>
+                    {{-- <textarea name="q3_reason" placeholder="Reasons for above (optional)"></textarea> --}}
                 </div>
 
                 <div class="question">
@@ -402,7 +410,7 @@
                         <label><input type="radio" name="q4" value="rarely"> Rarely</label>
                         <label><input type="radio" name="q4" value="never"> Never</label>
                     </div>
-                    <textarea name="q4_reason" placeholder="Reasons for above (optional)"></textarea>
+                    {{-- <textarea name="q4_reason" placeholder="Reasons for above (optional)"></textarea> --}}
                 </div>
 
                 <div class="buttons">
@@ -416,7 +424,7 @@
                 <h2>Growth & Development</h2>
                 <div class="section-description">Questions about career opportunities and professional growth.</div>
 
-                <div class="question">
+                <div class="question" id="q5Div">
                     <label><span class="question-number">5</span> Does your organization offer ample career growth
                         opportunities to you?</label>
                     <div class="options-row">
@@ -424,7 +432,7 @@
                         <label><input type="radio" name="q5" value="no"> No</label>
                         <label><input type="radio" name="q5" value="other"> Other</label>
                     </div>
-                    <textarea name="q5_reason" placeholder="Please elaborate (optional)"></textarea>
+                    {{-- <textarea name="q5_reason" placeholder="Please elaborate (optional)" hidden></textarea> --}}
                 </div>
 
                 <div class="question">
@@ -434,7 +442,7 @@
                         <label><input type="radio" name="q6" value="yes" required> Yes</label>
                         <label><input type="radio" name="q6" value="no"> No</label>
                     </div>
-                    <textarea name="q6_reason" placeholder="Reasons for the above (optional)"></textarea>
+                    {{-- <textarea name="q6_reason" placeholder="Reasons for the above (optional)"></textarea> --}}
                 </div>
 
                 <div class="question">
@@ -444,7 +452,7 @@
                         <label><input type="radio" name="q7" value="yes" required> Yes</label>
                         <label><input type="radio" name="q7" value="no"> No</label>
                     </div>
-                    <textarea name="q7_reason" placeholder="Reasons for the above (optional)"></textarea>
+                    {{-- <textarea name="q7_reason" placeholder="Reasons for the above (optional)"></textarea> --}}
                 </div>
 
                 <div class="buttons">
@@ -468,7 +476,7 @@
                         <label><input type="radio" name="q8" value="very_dissatisfied"> Very
                             dissatisfied</label>
                     </div>
-                    <textarea name="q8_reason" placeholder="Reasons for above (optional)"></textarea>
+                    {{-- <textarea name="q8_reason" placeholder="Reasons for above (optional)"></textarea> --}}
                 </div>
 
                 <div class="question">
@@ -482,7 +490,7 @@
                         <label><input type="radio" name="q9" value="strongly_disagree"> Strongly
                             Disagree</label>
                     </div>
-                    <textarea name="q9_reason" placeholder="Reasons for above (optional)"></textarea>
+                    {{-- <textarea name="q9_reason" placeholder="Reasons for above (optional)"></textarea> --}}
                 </div>
 
                 <div class="question">
@@ -492,7 +500,7 @@
                         <label><input type="radio" name="q10" value="yes" required> Yes</label>
                         <label><input type="radio" name="q10" value="no"> No</label>
                     </div>
-                    <textarea name="q10_reason" placeholder="Reasons for the above (optional)"></textarea>
+                    {{-- <textarea name="q10_reason" placeholder="Reasons for the above (optional)"></textarea> --}}
                 </div>
 
                 <div class="question">
@@ -502,7 +510,7 @@
                         <label><input type="radio" name="q11" value="yes" required> Yes</label>
                         <label><input type="radio" name="q11" value="no"> No</label>
                     </div>
-                    <textarea name="q11_reason" placeholder="Reasons for the above (optional)"></textarea>
+                    {{-- <textarea name="q11_reason" placeholder="Reasons for the above (optional)"></textarea> --}}
                 </div>
 
                 <div class="buttons">
@@ -561,12 +569,40 @@
 
     <footer>
         <p style="padding:15px;font-size:14px;color:#555;text-align:center;">
-            <strong>STAFF SATISFACTION SURVEY 2025</strong>
+            <strong>STAFF SATISFACTION SURVEY @ 2026</strong>
             <br>
             <br>
-            EBO - Confidential Feedback System
+            For any inquiries, contact
+            <a href="tel:+256787320618">+256(0) 78 732 0618</a>,
+            <a href="tel:+256701142253">+256(0) 70 114 2253</a>
+            <br>
+            <br>
+            {{-- EBO - Confidential Feedback System --}}
+            Powered by <strong>Right Click Signs Uganda</strong>
+            <br>
         </p>
     </footer>
+
+    <script>
+        var inputQ5 = document.querySelectorAll("input[name='q5']")
+        var q5Div = document.querySelector("#q5Div");
+
+        inputQ5.forEach(element => {
+            element.addEventListener('change', function() {
+                if (this.value != "other") {
+                    var textAreaQ5 = document.getElementById('q5TxtArea');
+
+                    if (textAreaQ5) {
+                        textAreaQ5.remove();
+                    }
+                } else {
+                    q5Div.insertAdjacentHTML('beforeend',
+                        '<textarea name="q5_reason" id="q5TxtArea" placeholder="Please elaborate (optional)"></textarea>'
+                    )
+                }
+            });
+        });
+    </script>
 
     <script>
         let currentStep = 0;
