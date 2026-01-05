@@ -433,7 +433,7 @@
                         <label><input type="radio" name="q5" value="no"> No</label>
                         <label><input type="radio" name="q5" value="other"> Other</label>
                     </div>
-                    <textarea name="q5_reason" placeholder="Please elaborate (optional)"></textarea>
+                    {{-- <textarea name="q5_reason" placeholder="Please elaborate (optional)"></textarea> --}}
                 </div>
 
                 <div class="question">
