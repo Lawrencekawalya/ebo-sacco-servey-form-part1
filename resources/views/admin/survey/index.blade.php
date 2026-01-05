@@ -103,7 +103,7 @@
             gap: 20px;
         }
 
-        .user-profile {
+        /* .user-profile {
             display: flex;
             align-items: center;
             gap: 10px;
@@ -116,7 +116,7 @@
 
         .user-profile:hover {
             background: rgba(255, 255, 255, 0.2);
-        }
+        } */
 
         .user-avatar {
             width: 36px;
@@ -131,7 +131,7 @@
             font-size: 16px;
         }
 
-        .user-profile form {
+        /* .user-profile form {
             margin: 0;
         }
 
@@ -152,7 +152,103 @@
 
         .user-profile button:focus {
             outline: none;
+        } */
+        /* User Profile Dropdown */
+        .user-profile.dropdown {
+            position: relative;
         }
+
+        .profile-trigger {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .profile-trigger:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 13px;
+            color: white;
+        }
+
+        .chevron {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            transition: transform 0.3s;
+        }
+
+        .user-profile.dropdown.open .chevron {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            right: 0;
+            top: calc(100% + 8px);
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            min-width: 180px;
+            display: none;
+            overflow: hidden;
+            z-index: 1000;
+            border: 1px solid var(--border-color);
+        }
+
+        .user-profile.dropdown.open .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-item {
+            width: 100%;
+            padding: 12px 16px;
+            background: none;
+            border: none;
+            text-align: left;
+            font-size: 14px;
+            color: var(--danger-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: background 0.2s;
+        }
+
+        .dropdown-item:hover {
+            background: var(--gray-light);
+        }
+
+        .dropdown-item i {
+            width: 16px;
+            text-align: center;
+        }
+
 
         /* Main Container */
         .main-container {
@@ -850,6 +946,69 @@
             margin-right: 10px;
             width: 18px;
         }
+
+        .user-profile.dropdown {
+            position: relative;
+        }
+
+        .profile-trigger {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            cursor: pointer;
+        }
+
+        .profile-trigger:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .chevron {
+            font-size: 12px;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            right: 0;
+            top: calc(100% + 8px);
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            min-width: 160px;
+            display: none;
+            overflow: hidden;
+            z-index: 100;
+        }
+
+        .dropdown-item {
+            width: 100%;
+            padding: 12px 16px;
+            background: none;
+            border: none;
+            text-align: left;
+            font-size: 14px;
+            color: var(--danger-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dropdown-item:hover {
+            background: var(--gray-light);
+        }
     </style>
 </head>
 
@@ -867,20 +1026,24 @@
                 </div>
             </div>
             <div class="header-actions">
-                <div class="user-profile">
-                    <div class="user-avatar">AD</div>
-                    <div>
-                        <div style="font-weight: 600;">Admin User</div>
-                        <div style="font-size: 12px; opacity: 0.9;">
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <button type="submit">
-                                    Logout
-                                </button>
-                            </form>
+                <div class="user-profile dropdown">
+                    <div class="profile-trigger">
+                        <div class="user-avatar">AD</div>
+                        <div class="user-info">
+                            <div class="user-name">Admin User</div>
                         </div>
+                        <i class="fas fa-chevron-down chevron"></i>
                     </div>
-                    <i class="fas fa-chevron-down" style="font-size: 12px;"></i>
+
+                    <div class="dropdown-menu">
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="dropdown-item">
+                                <i class="fas fa-sign-out-alt"></i>
+                                Logout
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1344,6 +1507,34 @@
     </div>
 
     <script>
+        // Dropdown functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdown = document.querySelector('.user-profile.dropdown');
+            const trigger = dropdown?.querySelector('.profile-trigger');
+            const menu = dropdown?.querySelector('.dropdown-menu');
+
+            if (trigger && menu) {
+                // Toggle dropdown on click
+                trigger.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    dropdown.classList.toggle('open');
+                });
+
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!dropdown.contains(e.target)) {
+                        dropdown.classList.remove('open');
+                    }
+                });
+
+                // Close dropdown when clicking on a dropdown item
+                menu.addEventListener('click', function(e) {
+                    if (e.target.tagName === 'BUTTON' || e.target.closest('button')) {
+                        dropdown.classList.remove('open');
+                    }
+                });
+            }
+        });
         // Initialize Charts
         document.addEventListener('DOMContentLoaded', function() {
             // 1. Data coming from Laravel controller
