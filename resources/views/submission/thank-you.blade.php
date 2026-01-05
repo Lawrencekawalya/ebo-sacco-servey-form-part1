@@ -396,7 +396,7 @@
 
         <div class="footer">
             <p>© 2025 EBO Staff Satisfaction Survey. All rights reserved.</p>
-            <p>For assistance, contact <a href="mailto:sorishaba@ebo.org">HR Department</a> or call
+            <p>For assistance, contact <a href="mailto:sorishaba@ebo.co.ug">HR Department</a> or call
                 <a href="tel:+256787320618">+256(0) 78 732 0618</a>,
                 <a href="tel:+256701142253">+256(0) 70 114 2253</a>
             </p>
