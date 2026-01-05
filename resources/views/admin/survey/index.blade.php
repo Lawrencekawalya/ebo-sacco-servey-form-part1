@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>EBO Staff Satisfaction Survey 2025 - Admin Dashboard</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/fav_icon.png') }}">">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -1105,9 +1106,9 @@
                         </div>
                         <h3>No Responses Yet</h3>
                         <p>Survey responses will appear here once participants start submitting their feedback.</p>
-                        <button class="filter-btn" style="margin-top: 10px;">
+                        {{-- <button class="filter-btn" style="margin-top: 10px;">
                             <i class="fas fa-bell"></i> Set Up Notifications
-                        </button>
+                        </button> --}}
                     </div>
                 @else
                     <div class="responsive-table">
@@ -1684,24 +1685,24 @@
         }
 
         // Simulate data for demo
-        @if ($submissions->isEmpty())
-            // For demo purposes, add some sample data if empty
-            setTimeout(() => {
-                const emptyState = document.querySelector('.empty-state');
-                if (emptyState) {
-                    emptyState.innerHTML = `
-                        <div style="color: var(--success-color); font-size: 40px; margin-bottom: 20px;">
-                            <i class="fas fa-check-circle"></i>
-                        </div>
-                        <h3>Demo Data Loaded</h3>
-                        <p>This is a preview of how the dashboard looks with data. In a real application, actual survey responses would appear here.</p>
-                        <button class="filter-btn" style="margin-top: 10px;" onclick="location.reload()">
-                            <i class="fas fa-sync-alt"></i> Reset to Empty State
-                        </button>
-                    `;
-                }
-            }, 1000);
-        @endif
+        // @if ($submissions->isEmpty())
+        //     // For demo purposes, add some sample data if empty
+        //     setTimeout(() => {
+        //         const emptyState = document.querySelector('.empty-state');
+        //         if (emptyState) {
+        //             emptyState.innerHTML = `
+    //                 <div style="color: var(--success-color); font-size: 40px; margin-bottom: 20px;">
+    //                     <i class="fas fa-check-circle"></i>
+    //                 </div>
+    //                 <h3>Demo Data Loaded</h3>
+    //                 <p>This is a preview of how the dashboard looks with data. In a real application, actual survey responses would appear here.</p>
+    //                 <button class="filter-btn" style="margin-top: 10px;" onclick="location.reload()">
+    //                     <i class="fas fa-sync-alt"></i> Reset to Empty State
+    //                 </button>
+    //             `;
+        //         }
+        //     }, 1000);
+        // @endif
     </script>
 </body>
 
