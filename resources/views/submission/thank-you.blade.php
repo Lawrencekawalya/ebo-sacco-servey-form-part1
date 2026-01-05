@@ -358,18 +358,18 @@
                     <div class="detail-value">Your responses are anonymous and confidential</div>
                 </div>
             </div>
-            <div class="detail-item">
+            {{-- <div class="detail-item">
                 <div class="detail-icon">
                     <i class="fas fa-clock"></i>
                 </div>
                 <div class="detail-text">
-                    {{-- <div class="detail-label">Submission Time</div>
-                        <div class="detail-value">{{ date('F j, Y g:i A') }}</div> --}}
+                    <div class="detail-label">Submission Time</div>
+                        <div class="detail-value">{{ date('F j, Y g:i A') }}</div>
                     @if (session('confirmed_at'))
                         <div class="detail-value">{{ session('confirmed_at')->format('F j, Y g:i A') }}</div>
                     @endif
                 </div>
-            </div>
+            </div> --}}
             <div class="detail-item">
                 <div class="detail-icon">
                     <i class="fas fa-file-alt"></i>
@@ -396,7 +396,7 @@
 
         <div class="footer">
             <p>© 2025 EBO Staff Satisfaction Survey. All rights reserved.</p>
-            <p>For assistance, contact <a href="mailto:hr@ebo.org">HR Department</a> or call +1 (234) 567-8900</p>
+            <p>For assistance, contact <a href="mailto:hr@ebo.org">HR Department</a> or call +256 701142253</p>
         </div>
     </div>
 

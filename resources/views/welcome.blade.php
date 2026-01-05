@@ -355,7 +355,7 @@
                         <label><input type="radio" name="q1" value="agree"> Agree</label>
                         <label><input type="radio" name="q1" value="strongly_agree"> Strongly agree</label>
                     </div>
-                    <textarea name="q1_reason" placeholder="Reasons for above (optional)"></textarea>
+                    {{-- <textarea name="q1_reason" placeholder="Reasons for above (optional)"></textarea> --}}
                 </div>
 
                 <div class="question">
@@ -367,7 +367,7 @@
                         <label><input type="radio" name="q2" value="disagree"> Disagree</label>
                         <label><input type="radio" name="q2" value="strongly_disagree"> Strongly Disagree</label>
                     </div>
-                    <textarea name="q2_reason" placeholder="Reasons for above (optional)"></textarea>
+                    {{-- <textarea name="q2_reason" placeholder="Reasons for above (optional)"></textarea> --}}
                 </div>
 
                 <div class="buttons">
@@ -389,7 +389,7 @@
                         <label><input type="radio" name="q3" value="rarely"> Rarely</label>
                         <label><input type="radio" name="q3" value="never"> Never</label>
                     </div>
-                    <textarea name="q3_reason" placeholder="Reasons for above (optional)"></textarea>
+                    {{-- <textarea name="q3_reason" placeholder="Reasons for above (optional)"></textarea> --}}
                 </div>
 
                 <div class="question">
@@ -402,7 +402,7 @@
                         <label><input type="radio" name="q4" value="rarely"> Rarely</label>
                         <label><input type="radio" name="q4" value="never"> Never</label>
                     </div>
-                    <textarea name="q4_reason" placeholder="Reasons for above (optional)"></textarea>
+                    {{-- <textarea name="q4_reason" placeholder="Reasons for above (optional)"></textarea> --}}
                 </div>
 
                 <div class="buttons">
@@ -424,7 +424,7 @@
                         <label><input type="radio" name="q5" value="no"> No</label>
                         <label><input type="radio" name="q5" value="other"> Other</label>
                     </div>
-                    <textarea name="q5_reason" placeholder="Please elaborate (optional)"></textarea>
+                    {{-- <textarea name="q5_reason" placeholder="Please elaborate (optional)"></textarea> --}}
                 </div>
 
                 <div class="question">
@@ -434,7 +434,7 @@
                         <label><input type="radio" name="q6" value="yes" required> Yes</label>
                         <label><input type="radio" name="q6" value="no"> No</label>
                     </div>
-                    <textarea name="q6_reason" placeholder="Reasons for the above (optional)"></textarea>
+                    {{-- <textarea name="q6_reason" placeholder="Reasons for the above (optional)"></textarea> --}}
                 </div>
 
                 <div class="question">
@@ -444,7 +444,7 @@
                         <label><input type="radio" name="q7" value="yes" required> Yes</label>
                         <label><input type="radio" name="q7" value="no"> No</label>
                     </div>
-                    <textarea name="q7_reason" placeholder="Reasons for the above (optional)"></textarea>
+                    {{-- <textarea name="q7_reason" placeholder="Reasons for the above (optional)"></textarea> --}}
                 </div>
 
                 <div class="buttons">
@@ -468,7 +468,7 @@
                         <label><input type="radio" name="q8" value="very_dissatisfied"> Very
                             dissatisfied</label>
                     </div>
-                    <textarea name="q8_reason" placeholder="Reasons for above (optional)"></textarea>
+                    {{-- <textarea name="q8_reason" placeholder="Reasons for above (optional)"></textarea> --}}
                 </div>
 
                 <div class="question">
@@ -482,7 +482,7 @@
                         <label><input type="radio" name="q9" value="strongly_disagree"> Strongly
                             Disagree</label>
                     </div>
-                    <textarea name="q9_reason" placeholder="Reasons for above (optional)"></textarea>
+                    {{-- <textarea name="q9_reason" placeholder="Reasons for above (optional)"></textarea> --}}
                 </div>
 
                 <div class="question">
@@ -492,7 +492,7 @@
                         <label><input type="radio" name="q10" value="yes" required> Yes</label>
                         <label><input type="radio" name="q10" value="no"> No</label>
                     </div>
-                    <textarea name="q10_reason" placeholder="Reasons for the above (optional)"></textarea>
+                    {{-- <textarea name="q10_reason" placeholder="Reasons for the above (optional)"></textarea> --}}
                 </div>
 
                 <div class="question">
@@ -502,7 +502,7 @@
                         <label><input type="radio" name="q11" value="yes" required> Yes</label>
                         <label><input type="radio" name="q11" value="no"> No</label>
                     </div>
-                    <textarea name="q11_reason" placeholder="Reasons for the above (optional)"></textarea>
+                    {{-- <textarea name="q11_reason" placeholder="Reasons for the above (optional)"></textarea> --}}
                 </div>
 
                 <div class="buttons">
