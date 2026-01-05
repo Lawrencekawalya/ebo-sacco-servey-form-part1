@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>EBO Staff Satisfaction Survey 2025 - Admin Dashboard</title>
-    <link rel="icon" type="image/x-icon" href="{{ asset('images/fav_icon.png') }}">">
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/fav_icon.png') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -983,7 +983,7 @@
                     </div>
                     <div class="stat-content">
                         <div class="stat-value">
-                            {{ $averageSatisfaction ?: 'N/A' }}
+                            {{ $avgSatisfactionQ8 ?? 'N/A' }}
                         </div>
                         <div class="stat-label">Avg. Satisfaction Score</div>
                         {{-- <div class="stat-change">
@@ -1029,10 +1029,17 @@
             <div class="charts-section">
                 <div class="chart-card">
                     <div class="chart-header">
-                        <h3 class="chart-title">Satisfaction Distribution</h3>
-                        <select
+                        {{-- <h3 class="chart-title">Satisfaction Distribution</h3> --}}
+                        <h3 class="chart-title">
+                            {{ $selectedQuestionLabel }} Distribution
+                        </h3>
+                        <select onchange="window.location='?question=' + this.value"
                             style="padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color); font-size: 13px;">
-                            <option>Question 8</option>
+                            @foreach ($questions as $key => $q)
+                                <option value="{{ $key }}" @selected($selectedQuestion === $key)>
+                                    {{ strtoupper($key) }} — {{ $q['label'] }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="chart-container">
@@ -1190,30 +1197,33 @@
                                             @endphp
                                             <div>{{ $satDisplay }}</div>
                                             @if ($satisfaction)
+                                                @php
+                                                    $widthMap = [
+                                                        'very_satisfied' => 100,
+                                                        'satisfied' => 75,
+                                                        'dissatisfied' => 40,
+                                                        'very_dissatisfied' => 20,
+                                                    ];
+
+                                                    $colorMap = [
+                                                        'very_satisfied' => 'var(--success-color)',
+                                                        'satisfied' => '#20c997',
+                                                        'dissatisfied' => 'var(--warning-color)',
+                                                        'very_dissatisfied' => 'var(--danger-color)',
+                                                    ];
+
+                                                    $width = $widthMap[$satisfaction] ?? 0;
+                                                    $color = $colorMap[$satisfaction] ?? '#e9ecef';
+                                                @endphp
+
                                                 <div class="progress-bar"
                                                     style="height: 6px; background: #e9ecef; border-radius: 3px; margin-top: 5px; overflow: hidden;">
-                                                    @php
-                                                        $width = 0;
-                                                        if (str_contains($satisfaction, 'very_satisfied')) {
-                                                            $width = 100;
-                                                        } elseif (str_contains($satisfaction, 'satisfied')) {
-                                                            $width = 75;
-                                                        } elseif (str_contains($satisfaction, 'dissatisfied')) {
-                                                            $width = 40;
-                                                        } elseif (str_contains($satisfaction, 'very_dissatisfied')) {
-                                                            $width = 20;
-                                                        }
-                                                    @endphp
                                                     <div
-                                                        style="height: 100%; width: {{ $width }}%; background: 
-                                                        @if (str_contains($satisfaction, 'very_satisfied')) var(--success-color)
-                                                        @elseif(str_contains($satisfaction, 'satisfied')) #20c997
-                                                        @elseif(str_contains($satisfaction, 'dissatisfied')) var(--warning-color)
-                                                        @elseif(str_contains($satisfaction, 'very_dissatisfied')) var(--danger-color)
-                                                        @else #e9ecef @endif;">
+                                                        style="height: 100%; width: {{ $width }}%; background: {{ $color }};">
                                                     </div>
                                                 </div>
                                             @endif
+
                                         </td>
                                         <td>
                                             @php
@@ -1337,40 +1347,54 @@
         // Initialize Charts
         document.addEventListener('DOMContentLoaded', function() {
             // 1. Data coming from Laravel controller
-            const satisfactionDistribution = @json($satisfactionDistribution);
+            const distribution = @json($satisfactionDistribution);
             const timelineLabels = @json($timelineLabels);
             const timelineCounts = @json($timelineCounts);
-            // Satisfaction Chart
+
+            const isBinary = Object.keys(distribution).length === 2;
+
             const satisfactionCtx = document
                 .getElementById('satisfactionChart')
                 .getContext('2d');
+            // Satisfaction Chart
+            const labels = Object.keys(distribution).map(v =>
+                v.replaceAll('_', ' ').replace(/\b\w/g, l => l.toUpperCase())
+            );
 
-            const satisfactionValues = [
-                satisfactionDistribution.very_satisfied,
-                satisfactionDistribution.satisfied,
-                satisfactionDistribution.dissatisfied,
-                satisfactionDistribution.very_dissatisfied
-            ];
+            const values = Object.values(distribution);
 
-            const totalResponses = satisfactionValues.reduce((a, b) => a + b, 0);
+            const answerColors = {
+                strongly_agree: '#00A448',
+                agree: '#0a58ca',
+                sometimes: '#20c997',
+                rarely: '#6c757d',
+
+                strongly_disagree: '#dc3545',
+                disagree: '#f0ad4e',
+
+                very_satisfied: '#00A448',
+                satisfied: '#0a58ca',
+                dissatisfied: '#f0ad4e',
+                very_dissatisfied: '#dc3545',
+
+                yes: '#00A448',
+                no: '#dc3545',
+
+                always: '#00A448',
+                never: '#dc3545',
+            };
+
+            const backgroundColors = Object.keys(distribution).map(key => {
+                return answerColors[key] || '#e5e7eb'; // fallback gray
+            });
 
             new Chart(satisfactionCtx, {
                 type: 'doughnut',
                 data: {
-                    labels: [
-                        'Very Satisfied',
-                        'Satisfied',
-                        'Dissatisfied',
-                        'Very Dissatisfied'
-                    ],
+                    labels,
                     datasets: [{
-                        data: satisfactionValues,
-                        backgroundColor: [
-                            '#00A448',
-                            '#0a58ca',
-                            '#f0ad4e',
-                            '#dc3545'
-                        ],
+                        data: values,
+                        backgroundColor: backgroundColors,
                         borderWidth: 2,
                         borderColor: '#fff'
                     }]
@@ -1380,23 +1404,7 @@
                     maintainAspectRatio: false,
                     plugins: {
                         legend: {
-                            position: 'bottom',
-                            labels: {
-                                padding: 20,
-                                usePointStyle: true
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    const value = context.raw;
-                                    const percentage = totalResponses > 0 ?
-                                        ((value / totalResponses) * 100).toFixed(1) :
-                                        0;
-
-                                    return `${context.label}: ${value} (${percentage}%)`;
-                                }
-                            }
+                            position: 'bottom'
                         }
                     }
                 }
@@ -1683,26 +1691,6 @@
                 closeModal();
             }
         }
-
-        // Simulate data for demo
-        // @if ($submissions->isEmpty())
-        //     // For demo purposes, add some sample data if empty
-        //     setTimeout(() => {
-        //         const emptyState = document.querySelector('.empty-state');
-        //         if (emptyState) {
-        //             emptyState.innerHTML = `
-    //                 <div style="color: var(--success-color); font-size: 40px; margin-bottom: 20px;">
-    //                     <i class="fas fa-check-circle"></i>
-    //                 </div>
-    //                 <h3>Demo Data Loaded</h3>
-    //                 <p>This is a preview of how the dashboard looks with data. In a real application, actual survey responses would appear here.</p>
-    //                 <button class="filter-btn" style="margin-top: 10px;" onclick="location.reload()">
-    //                     <i class="fas fa-sync-alt"></i> Reset to Empty State
-    //                 </button>
-    //             `;
-        //         }
-        //     }, 1000);
-        // @endif
     </script>
 </body>
 
