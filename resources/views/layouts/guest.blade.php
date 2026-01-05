@@ -8,7 +8,7 @@
 
     {{-- <title>{{ config('app.name', 'Ebo Survey') }}</title> --}}
     <title>Ebo Survey - Login</title>
-    <link rel="icon" type="image/x-icon" href="{{ asset('images/fav_icon.png') }}">">
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/fav_icon.png') }}">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
