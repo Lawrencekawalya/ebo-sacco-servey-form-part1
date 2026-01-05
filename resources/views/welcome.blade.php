@@ -403,9 +403,8 @@
                 </div>
 
                 <div class="question">
-                    <label><span class="question-number">4</span> How often are your suggestions at work taken
-                        seriously
-                        at your work station?</label>
+                    <label><span class="question-number">4</span> How often are your suggestions taken seriously at your
+                        work station?</label>
                     <div class="options-row">
                         <label><input type="radio" name="q4" value="always" required> Always</label>
                         <label><input type="radio" name="q4" value="sometimes"> Sometimes</label>
@@ -543,7 +542,7 @@
 
                 <div class="question">
                     <label><span class="question-number">14</span> What are the three things you would like to suggest
-                        to make EBO's functionality better?</label>
+                        to make EBO to make it function better?</label>
                     <div class="multiple-inputs">
                         <input type="text" name="q14_1" placeholder="1. First suggestion">
                         <input type="text" name="q14_2" placeholder="2. Second suggestion">
