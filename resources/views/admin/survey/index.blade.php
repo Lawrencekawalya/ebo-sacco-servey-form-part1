@@ -1310,7 +1310,11 @@
                 <p>For technical support, contact <a href="mailto:it-support@ebo.org">IT Support</a> | <a
                         href="#">Privacy Policy</a> | <a href="#">Terms of Use</a></p>
                 <br>
-                <p>Powered by <strong>Right Click Signs Uganda</strong></p>
+                Powered by <strong>
+                    <a href="http://rightclick.co.ug" style="text-decoration: underline">
+                        Right Click Signs Uganda
+                    </a>
+                </strong>
             </div>
         </main>
     </div>

@@ -578,7 +578,8 @@
             <br>
             <br>
             {{-- EBO - Confidential Feedback System --}}
-            Powered by <strong>Right Click Signs Uganda</strong>
+            Powered by <strong> <a href="http://rightclick.co.ug" style="text-decoration: underline">Right Click Signs
+                    Uganda</a></strong>
             <br>
         </p>
     </footer>
