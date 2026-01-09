@@ -1209,9 +1209,33 @@
                         <i class="fas fa-percentage"></i>
                     </div>
                     <div class="stat-content">
-                        <div class="stat-value">
+                        {{-- <div class="stat-value">
                             <span style="color: var(--success-color);">{{ $satisfiedCount }}</span>
                             <span style="color: var(--gray-dark);"> / {{ $totalQ8Responses }}</span>
+                        </div>
+                        <div class="stat-label">
+                            Staff satisfied
+                        </div> --}}
+                        <div class="stat-value" style="display: flex; align-items: center; gap: 12px;">
+                            <div>
+                                <span style="color: var(--success-color); font-size: 32px;">{{ $satisfiedCount }}</span>
+                                <span style="color: var(--gray-dark); font-size: 24px;">/ {{ $totalQ8Responses }}</span>
+                            </div>
+                            @if ($totalQ8Responses > 0)
+                                <div
+                                    style="
+                                    background: rgba(0, 164, 72, 0.1);
+                                    color: var(--success-color);
+                                    padding: 6px 12px;
+                                    border-radius: 20px;
+                                    font-size: 16px;
+                                    font-weight: 700;
+                                    border: 1px solid rgba(0, 164, 72, 0.2);
+                                    align-self: center;
+                                ">
+                                    {{ number_format(($satisfiedCount / $totalQ8Responses) * 100, 1) }}%
+                                </div>
+                            @endif
                         </div>
                         <div class="stat-label">
                             Staff satisfied
