@@ -761,6 +761,69 @@
             cursor: not-allowed;
         }
 
+        /* Laravel Pagination – Styled to match page-btn */
+
+        .pagination nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .pagination ul {
+            display: flex;
+            gap: 10px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .pagination li {
+            display: flex;
+        }
+
+        /* Links + spans look like buttons */
+        .pagination a,
+        .pagination span {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            background: white;
+            color: var(--gray-dark);
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        /* Hover */
+        .pagination a:hover {
+            background: var(--gray-light);
+            border-color: var(--gray-medium);
+        }
+
+        /* Active page */
+        .pagination .active span {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* Disabled buttons */
+        .pagination .disabled span {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Optional: arrows look nicer */
+        .pagination svg {
+            width: 14px;
+            height: 14px;
+        }
+
+
         /* Footer */
         .footer {
             text-align: center;
@@ -1106,7 +1169,8 @@
                         <i class="fas fa-file-alt"></i>
                     </div>
                     <div class="stat-content">
-                        <div class="stat-value">{{ $submissions->count() }}</div>
+                        {{-- <div class="stat-value">{{ $submissions->count() }}</div> --}}
+                        <div class="stat-value">{{ $totalCount }}</div>
                         <div class="stat-label">Total Responses</div>
                         {{-- <div class="stat-change">
                             <i class="fas fa-arrow-up"></i> 24% from last survey
@@ -1146,9 +1210,16 @@
                     </div>
                     <div class="stat-content">
                         <div class="stat-value">
+                            <span style="color: var(--success-color);">{{ $satisfiedCount }}</span>
+                            <span style="color: var(--gray-dark);"> / {{ $totalQ8Responses }}</span>
+                        </div>
+                        <div class="stat-label">
+                            Staff satisfied
+                        </div>
+                        {{-- <div class="stat-value">
                             {{ $avgSatisfactionQ8 ?? 'N/A' }}
                         </div>
-                        <div class="stat-label">Avg. Satisfaction Score</div>
+                        <div class="stat-label">Avg. Satisfaction Score</div> --}}
                         {{-- <div class="stat-change">
                             <i class="fas fa-arrow-up"></i> 0.3 improvement
                         </div> --}}
@@ -1444,37 +1515,53 @@
                     </div>
 
                     <!-- Pagination -->
+
+                    <!-- Replace the entire Pagination section (around line 1065-1087) -->
                     <div class="pagination">
                         <div class="pagination-info">
                             Showing {{ $submissions->firstItem() ?? 0 }} to {{ $submissions->lastItem() ?? 0 }} of
                             {{ $submissions->total() }} entries
                         </div>
+
                         <div class="pagination-controls">
-                            <button class="page-btn" onclick="changePage(1)"
-                                {{ $submissions->currentPage() == 1 ? 'disabled' : '' }}>
-                                <i class="fas fa-chevron-left"></i>
-                            </button>
-
-                            @php
-                                $currentPage = $submissions->currentPage();
-                                $totalPages = $submissions->lastPage();
-                                $startPage = max(1, $currentPage - 2);
-                                $endPage = min($totalPages, $currentPage + 2);
-                            @endphp
-
-                            @for ($i = $startPage; $i <= $endPage; $i++)
-                                <button class="page-btn {{ $i == $currentPage ? 'active' : '' }}"
-                                    onclick="changePage({{ $i }})">
-                                    {{ $i }}
+                            @if ($submissions->onFirstPage())
+                                <button class="page-btn" disabled>
+                                    <i class="fas fa-chevron-left"></i>
                                 </button>
-                            @endfor
+                            @else
+                                <a href="{{ $submissions->previousPageUrl() }}" class="page-btn">
+                                    <i class="fas fa-chevron-left"></i>
+                                </a>
+                            @endif
 
-                            <button class="page-btn" onclick="changePage({{ $totalPages }})"
-                                {{ $submissions->currentPage() == $totalPages ? 'disabled' : '' }}>
-                                <i class="fas fa-chevron-right"></i>
-                            </button>
+                            @foreach ($submissions->getUrlRange(1, $submissions->lastPage()) as $page => $url)
+                                @if ($page == $submissions->currentPage())
+                                    <span class="page-btn active">{{ $page }}</span>
+                                @else
+                                    <a href="{{ $url }}" class="page-btn">{{ $page }}</a>
+                                @endif
+                            @endforeach
+
+                            @if ($submissions->hasMorePages())
+                                <a href="{{ $submissions->nextPageUrl() }}" class="page-btn">
+                                    <i class="fas fa-chevron-right"></i>
+                                </a>
+                            @else
+                                <button class="page-btn" disabled>
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            @endif
                         </div>
                     </div>
+
+                    {{-- <div class="pagination">
+                        <div class="pagination-info">
+                            Showing {{ $submissions->firstItem() ?? 0 }} to {{ $submissions->lastItem() ?? 0 }} of
+                            {{ $submissions->total() }} entries
+                        </div>
+
+                        {{ $submissions->links() }}
+                    </div> --}}
                 @endif
             </div>
 

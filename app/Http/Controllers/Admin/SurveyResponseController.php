@@ -35,6 +35,26 @@ class SurveyResponseController extends Controller
             ->withQueryString();
 
         // Global KPI: Average Satisfaction (Q8 only)
+        // Satisfaction summary (Q8)
+        $totalQ8Responses = 0;
+        $satisfiedCount = 0;
+
+        SavingsSubmission::whereNotNull('answers')
+            ->cursor()
+            ->each(function ($submission) use (&$totalQ8Responses, &$satisfiedCount) {
+                $value = $submission->answers['q8'] ?? null;
+
+                if (!$value) {
+                    return;
+                }
+
+                $totalQ8Responses++;
+
+                if (in_array($value, ['very_satisfied', 'satisfied'])) {
+                    $satisfiedCount++;
+                }
+            });
+
         $q8Config = config('survey_analytics.q8');
 
         $avgSatisfactionQ8 = null;
@@ -154,6 +174,8 @@ class SurveyResponseController extends Controller
             'satisfactionDistribution' => $satisfactionDistribution,
             'timelineLabels' => $timeline->pluck('date'),
             'timelineCounts' => $timeline->pluck('total'),
+            'satisfiedCount' => $satisfiedCount,
+            'totalQ8Responses' => $totalQ8Responses,
         ]);
     }
 
