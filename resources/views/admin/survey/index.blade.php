@@ -1539,6 +1539,12 @@
         document.addEventListener('DOMContentLoaded', function() {
             // 1. Data coming from Laravel controller
             const distribution = @json($satisfactionDistribution);
+            const values = Object.values(distribution);
+            const totalResponses = values.reduce((sum, v) => sum + v, 0);
+
+            const percentages = values.map(v =>
+                totalResponses > 0 ? ((v / totalResponses) * 100).toFixed(1) : 0
+            );
             const timelineLabels = @json($timelineLabels);
             const timelineCounts = @json($timelineCounts);
 
@@ -1548,11 +1554,18 @@
                 .getElementById('satisfactionChart')
                 .getContext('2d');
             // Satisfaction Chart
-            const labels = Object.keys(distribution).map(v =>
-                v.replaceAll('_', ' ').replace(/\b\w/g, l => l.toUpperCase())
-            );
+            // const labels = Object.keys(distribution).map(v =>
+            //     v.replaceAll('_', ' ').replace(/\b\w/g, l => l.toUpperCase())
+            // );
+            const labels = Object.keys(distribution).map((key, index) => {
+                const readable = key
+                    .replaceAll('_', ' ')
+                    .replace(/\b\w/g, l => l.toUpperCase());
 
-            const values = Object.values(distribution);
+                return `${readable} (${percentages[index]}%)`;
+            });
+
+
 
             const answerColors = {
                 strongly_agree: '#00A448',
@@ -1659,31 +1672,53 @@
                         tension: 0.4
                     }]
                 },
+                // options: {
+                //     responsive: true,
+                //     maintainAspectRatio: false,
+                //     plugins: {
+                //         legend: {
+                //             display: false
+                //         }
+                //     },
+                //     scales: {
+                //         y: {
+                //             beginAtZero: true,
+                //             grid: {
+                //                 color: 'rgba(0, 0, 0, 0.05)'
+                //             },
+                //             ticks: {
+                //                 precision: 0
+                //             }
+                //         },
+                //         x: {
+                //             grid: {
+                //                 color: 'rgba(0, 0, 0, 0.05)'
+                //             }
+                //         }
+                //     }
+                // }
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
                         legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: {
-                                color: 'rgba(0, 0, 0, 0.05)'
-                            },
-                            ticks: {
-                                precision: 0
-                            }
+                            position: 'bottom'
                         },
-                        x: {
-                            grid: {
-                                color: 'rgba(0, 0, 0, 0.05)'
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const value = context.raw;
+                                    const percent = totalResponses > 0 ?
+                                        ((value / totalResponses) * 100).toFixed(1) :
+                                        0;
+
+                                    return `${context.label}: ${value} (${percent}%)`;
+                                }
                             }
                         }
                     }
                 }
+
             });
 
 
